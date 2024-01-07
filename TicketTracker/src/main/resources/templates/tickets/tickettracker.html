@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <!-- Font Awesome CSS from CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+<title>Insert title here</title>
+</head>
+<body>
+
+
+
+       <nav class="navbar navbar-expand-sm bg-primary navbar-blue">
+        <ul class="navbar-nav">
+            <li class="nav-item mr-sm-2">
+                <a class="nav-link text-white font-weight-bold" href="/tickets/list">Ticket Tracker Application</a>
+            </li>
+            <li class="nav-item mr-sm-2">
+                <a class="nav-link text-white font-weight-bold" href="/tickets/list">Ticket </a>
+            </li>
+            <li class="nav-item mr-sm-2">
+                <a class="nav-link text-white font-weight-bold" href="/tickets/showTicketFormForAdd">New Ticket</a>
+            </li>
+        </ul>
+    </nav>
+
+  <div class="container mt-1  ">
+  <h2>List of Tickets</h2>
+<form class="form-inline " th:action="@{/tickets/search}" method="get">
+    <input type="text" class="form-control mr-sm-2" th:value="${keyword}" placeholder="Search" name="keyword" id="title">
+    <button type="submit" class="btn btn-primary mr-sm-2">Search</button>
+</form>
+</div>
+
+
+
+	<div class="container mt-3 pt-2 ">
+		<table class="table table-bordered">
+			<thead class="bg-dark text-white">
+				<tr>
+					<th>Sno</th>
+					<th>Ticket Title</th>
+					<th>Ticket Short Description</th>
+					<th>Ticket Created On</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+			<tbody class="bg-light">
+				
+				<tr
+					th:each="ticket, test: ${#lists.isEmpty(searchResults) ? tickettracker : searchResults}">
+					<td th:text="${test.count}"></td>
+					<td th:text="${ticket.TicketTitle}"></td>
+					<td th:text="${ticket.TicketDescription}"></td>
+					<td th:text="${ticket.selectedDate}"></td>
+					<td><a
+						th:href="@{/tickets/showTicketFormForEdit/{id}(id=${ticket.id})}"
+						class="btn btn-link btn-primary text-white text-decoration-none"
+						title="edit">  Edit
+					</a> <a th:href="@{/tickets/delete/{id}(id=${ticket.id})}"
+						class="btn btn-link btn-danger text-white text-decoration-none"
+						title="delete"
+						onclick="return confirm('Are you sure you want to delete this ticket?');">
+							 Delete
+					</a>
+					  <a th:href="@{/tickets/viewTicketDetails/{id}(id=${ticket.id})}"
+               class="btn btn-link btn-info text-white text-decoration-none"
+               title="view">
+                 View
+            </a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<footer
+			style="background-color: #f8f9fa; padding: 20px; text-align: center; width: 100%; position: fixed; bottom: 0; left: 0;">
+			<p style="font-weight: bold;">Copyright &copy; 2023 GreatLearning
+				All Right Reserved</p>
+		</footer>
+</body>
+</html>

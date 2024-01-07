@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <!-- Font Awesome CSS from CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+
+
+     <nav class="navbar navbar-expand-sm bg-primary navbar-blue">
+        <ul class="navbar-nav">
+            <li class="nav-item mr-sm-2 ">
+                <a class="nav-link text-white font-weight-bold" href="/tickets/list">Ticket Tracker Application</a>
+            </li>
+            <li class="nav-item mr-sm-2 ">
+                <a class="nav-link text-white font-weight-bold" href="/tickets/list">Ticket </a>
+            </li>
+            <li class="nav-item mr-sm-2 ">
+                <a class="nav-link text-white font-weight-bold" href="/tickets/showTicketFormForAdd">New Ticket</a>
+            </li>
+        </ul>
+    </nav>
+
+<div class="container mt-5 pt-2 border">
+
+	
+	 <h2 style="text-align:center;color:black;background-color:lightgrey;padding:1rem;"
+	        th:text="${tickets.id} ? 'Edit the Ticket' : 'Create a New Ticket'">
+	    </h2>
+	<form th:action="@{/tickets/savetickets}" th:object="${tickets}" method="post">
+	<input type="hidden" th:field="*{id}" />
+	  <div class="form-group">
+	    <label class="font-weight-bold" for="title ">Titile</label>
+	    <input type="text" class="form-control" id="TicketTitle" th:field="*{TicketTitle}"  name="TicketTitle"  placeholder="Enter your title">
+	  </div>
+	    <div class="form-group">
+	    <label class="font-weight-bold"  for="shortdesc">Short Description</label>
+	    <textarea class="form-control" id="TicketDescription" name="TicketDescription" th:field="*{TicketDescription}"   rows="4" placeholder="Enter your description"></textarea>
+	  </div>
+	  
+<div class="form-group">
+    <label class="font-weight-bold" for="content">Content</label>
+    <!-- Integrate CKEditor for the content field -->
+    <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
+    <textarea class="form-control" id="TicketContent" title="TicketContent" name="TicketContent" th:field="*{TicketContent}" rows="10" placeholder="Enter your content"></textarea>
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#TicketContent'))
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
+
+    <!-- Add a script to remove <p> tags before submitting the form -->
+    <script>
+        // Function to remove <p> tags from CKEditor content
+        function removePTags() {
+            var editorContent = document.querySelector('#TicketContent').value;
+            editorContent = editorContent.replace(/<p>/g, '').replace(/<\/p>/g, '');
+            document.querySelector('#TicketContent').value = editorContent;
+        }
+
+        // Add an event listener to the form for form submission
+        document.querySelector('form').addEventListener('submit', removePTags);
+    </script>
+</div>
+
+
+  
+    
+  
+ 
+  <button type="submit" class="btn btn-primary mb-2" >Submit</button>
+  
+  
+</form>
+<footer style="background-color: #f8f9fa; padding: 20px; text-align: center; width:100%; position: fixed; bottom: 0; left:0;">
+    <p style="font-weight: bold;">Copyright &copy; 2023 GreatLearning All Right Reserved</p>
+</footer>
+</div>
+</body>
+</html>
