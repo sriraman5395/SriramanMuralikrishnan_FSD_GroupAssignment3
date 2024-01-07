@@ -70,12 +70,15 @@ public class TicketController {
 	}
 	
 	
-	 @GetMapping("/search")
-	    public String searchByKeyword(@RequestParam("keyword") String keyword, Model model) {
-	        List<TicketTracker> searchResults = ticketService.findByKeyword(keyword);
-	        model.addAttribute("searchResults", searchResults);
-	        return "tickets/tickettracker"; // Assuming your view name is "tickets/tickettracker"
-	    }
+	@GetMapping("/search")
+	public String searchByKeyword(@RequestParam("keyword") String keyword, Model model) {
+	    List<TicketTracker> searchResults = ticketService.findByKeyword(keyword);
+
+	    model.addAttribute("keyword", keyword);  // Add the keyword to the model
+	    model.addAttribute("searchResults", searchResults);
+
+	    return "tickets/tickettracker"; 
+	}
 	 
 	    @GetMapping("/viewTicketDetails/{id}")
 	    public String viewTicketDetails(@PathVariable int id, Model model) {
